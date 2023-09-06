@@ -23,7 +23,7 @@ namespace Barotrauma
 {
     class MainMenuScreen : Screen
     {
-        private enum Tab
+        public enum Tab
         {
             NewGame = 0,
             LoadGame = 1,
@@ -62,7 +62,7 @@ namespace Barotrauma
         private readonly GUIComponent remoteContentContainer;
         private XDocument remoteContentDoc;
 
-        private Tab selectedTab = Tab.Empty;
+        public Tab selectedTab = Tab.Empty;
 
         private Sprite backgroundSprite;
 
@@ -612,7 +612,7 @@ namespace Barotrauma
             return true;
         }
 
-        private bool SelectTab(Tab tab)
+        public bool SelectTab(Tab tab)
         {
             titleText.Visible = true;
             SettingsMenu.Instance?.Close();

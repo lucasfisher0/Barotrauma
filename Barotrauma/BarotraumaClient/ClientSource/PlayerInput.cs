@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
+using System.Linq;
 #if WINDOWS
 using System.Runtime.InteropServices;
 #endif
@@ -488,12 +490,15 @@ namespace Barotrauma
             oldMouseState = mouseState;
             mouseState = latestMouseState;
             UpdateVariable();
+            MouseSpeedPerSecond = MouseSpeed / (float)deltaTime;
 
             oldKeyboardState = keyboardState;
             keyboardState = Keyboard.GetState();
-
-            MouseSpeedPerSecond = MouseSpeed / (float)deltaTime;
-
+            
+#if USE_STEAM
+            UpdateController(deltaTime);
+#endif
+            
             // Split into two to not accept drag & drop releasing as part of a double-click
             doubleClicked = false;
             if (PrimaryMouseButtonClicked())
@@ -521,6 +526,73 @@ namespace Barotrauma
             }
         }
 
+        public static void UpdateController(double deltaTime)
+        {
+            Steamworks.SteamInput.RunFrame();
+            foreach (var controller in Steamworks.SteamInput.Controllers)
+            {
+                var inScreen = Screen.Selected == null;
+                if (inScreen)
+                    controller.ActivateLayer("MenuControls");
+                else
+                    controller.DeactivateLayer("MenuControls");
+                
+                // Screen-specific logic
+                switch (Screen.Selected.GetType().Name)
+                {
+                    /*
+                     * SCREEN TYPES:
+                     *  CharacterEditorScreen
+                     *  EventEditorScreen
+                     *  CampaignEndScreen
+                     *  EditorScreen
+                     *  GameScreen
+                     *  LevelEditorScreen
+                     *  MainMenuScreen
+                     *  ModDownloadScreen
+                     *  NetLobbyScreen
+                     *  ParticleEditorScreen
+                     *  RoundSummaryScreen
+                     *  SpriteEditorScreen
+                     *  SubEditorScreen
+                     *  TestScreen
+                     */
+                    default:
+                        DebugConsole.NewMessage($"Detected screen: {Screen.Selected.GetType().Name}", Color.Yellow);
+                        break;
+                }
+                
+                if (Screen.Selected == GameMain.MainMenuScreen)
+                {
+                    var currentTab = (int)GameMain.MainMenuScreen.selectedTab;
+                    if (controller.GetDigitalState("Menu_Up").Pressed)
+                    {
+                        currentTab--;
+                    }
+                    else if (controller.GetDigitalState("Menu_Down").Pressed)
+                    {
+                        currentTab++;
+                    }
+
+                    var tabTypes = Enum.GetValues(typeof(MainMenuScreen.Tab)).Cast<MainMenuScreen.Tab>().ToArray();
+                    currentTab = Math.Clamp(currentTab, (int)tabTypes.Min(), (int)tabTypes.Max());
+
+                    GameMain.MainMenuScreen.SelectTab((MainMenuScreen.Tab)currentTab);
+                }
+
+                
+                
+                
+                
+                
+                
+                
+                
+                // var controllerType = Enum.GetName(typeof(Steamworks.InputType), controller.InputType);
+                // NewMessage($"ID {controller.Id}: {controllerType}.", Color.Yellow);
+            }
+            
+        }
         public static void UpdateVariable()
         {
             //do NOT use this for actual interaction with the game, this is to be used for debugging and rendering ONLY

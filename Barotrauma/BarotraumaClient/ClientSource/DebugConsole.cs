@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Steamworks;
 using static Barotrauma.FabricationRecipe;
 
 namespace Barotrauma
@@ -1356,6 +1357,38 @@ namespace Barotrauma
                     GameMain.Client.ConnectedClients.Select(c => c.Name).ToArray()
                 };
             }));
+            
+#if USE_STEAM
+            commands.Add(new Command("listcontrollers", "listcontrollers: Lists detected controllers.", (string[] args) => 
+            {
+                Steamworks.SteamInput.RunFrame();
+                if (!Steamworks.SteamInput.Controllers.Any())
+                {
+                    NewMessage("No controllers detected.", Color.Red);
+                    return;
+                }
+                foreach (var controller in Steamworks.SteamInput.Controllers)
+                {
+                    var controllerType = Enum.GetName(typeof(Steamworks.InputType), controller.InputType);
+                    NewMessage($"ID {controller.Id}: {controllerType}.", Color.Yellow);
+                }
+            },
+            isCheat: false));
+            
+            commands.Add(new Command("showcontrollertextinput", "showcontrollertextinput [description] [maxChars] [existingText]:Shows text input dialogue for controllers.", (string[] args) =>
+            {
+                string description = args.Length > 0 ? args[0] : string.Empty;
+                string existingText = args.Length > 2 ? args[2] : string.Empty;
+                
+                int maxChars = 20;
+                if (args.Length > 1)
+                    int.TryParse(args[1], out maxChars);
+                
+                SteamUtils.ShowGamepadTextInput(GamepadTextInputMode.Normal, GamepadTextInputLineMode.SingleLine,
+                    description, maxChars, existingText);
+            },
+            isCheat: false));
+#endif
 
             commands.Add(new Command("checkcrafting", "checkcrafting: Checks item deconstruction & crafting recipes for inconsistencies.", (string[] args) =>
             {

@@ -5,9 +5,12 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Steamworks;
 using Color = Microsoft.Xna.Framework.Color;
+using SteamId = Barotrauma.Networking.SteamId;
 
 namespace Barotrauma.Steam
 {
@@ -39,6 +42,8 @@ namespace Barotrauma.Steam
                         popularTags.Insert(i, commonness.Key);
                         i++;
                     }
+
+                    InitializeInput();
                 }
 
                 Steamworks.SteamNetworkingUtils.OnDebugOutput += LogSteamworksNetworking;
@@ -67,7 +72,7 @@ namespace Barotrauma.Steam
             else
             {
                 //Steamworks is completely insane so the following needs comments:
-                
+
                 //This callback seems to take place when the item in question has not been downloaded recently
                 Steamworks.SteamUGC.GlobalOnItemInstalled = id => Workshop.OnItemDownloadComplete(id);
                 
@@ -133,7 +138,6 @@ namespace Barotrauma.Steam
             }
             //SetSteamworksNetworkingDebugLog(false);
         }
-        
         
         public static bool OverlayCustomUrl(string url)
         {
