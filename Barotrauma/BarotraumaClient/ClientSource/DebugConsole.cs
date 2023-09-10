@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Gameloop.Vdf.Linq;
 using Steamworks;
 using static Barotrauma.FabricationRecipe;
 
@@ -1388,6 +1389,42 @@ namespace Barotrauma
                     description, maxChars, existingText);
             },
             isCheat: false));
+            
+            commands.Add(new Command("readvdf", "readvdf [path]: deserialize a VDF file for debugging purposes only.", (string[] args) =>
+            {
+                if (args.Length != 1)
+                {
+                    NewMessage("Please provide a path.", Color.Red);
+                    return;
+                }
+                if (!File.Exists(args[0]))
+                {
+                    NewMessage($"File '{args[0]}' was not found.", Color.Red);
+                    return;
+                }
+                
+                dynamic vdf = Gameloop.Vdf.VdfConvert.Deserialize(File.ReadAllText(args[0]));
+                int i = 0;
+            }, isCheat: false));
+            
+            commands.Add(new Command( "exportactions", "exportactions: exports a Steam action manifest to the clipboard.", (string[] args) =>
+            {
+                var configurations = new VObject();
+                var actions = new VObject();
+                    #warning TODO: implement action lookup
+                var actionLayers = new VObject();
+                    #warning TODO: implement action layer lookup
+                var localization = new VObject();
+
+                var actionManifest = new VObject();
+                actionManifest.Add(configurations);
+                actionManifest.Add(actions);
+                actionManifest.Add(actionLayers);
+                actionManifest.Add(localization);
+                
+                Clipboard.SetText(Gameloop.Vdf.VdfConvert.Serialize(new VProperty("Action Manifest", actionManifest)));
+                NewMessage("Action Manifest copied to clipboard.");
+            }, isCheat: false));
 #endif
 
             commands.Add(new Command("checkcrafting", "checkcrafting: Checks item deconstruction & crafting recipes for inconsistencies.", (string[] args) =>

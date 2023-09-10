@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsTest", "Barotrauma\B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployAll", "Deploy\DeployAll\DeployAll.csproj", "{C98FE0D0-BC7D-4806-B592-734B53016FD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gameloop.Vdf", "Libraries\Gameloop.Vdf\Gameloop.Vdf.csproj", "{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\GameAnalytics\GA-SDK-MONO-SHARED\GA-SDK-MONO-SHARED.projitems*{95c4d59d-9be4-4278-b4f8-46c0ba1a3916}*SharedItemsImports = 5
@@ -137,6 +139,12 @@ Global
 		{D42D8E48-A687-445D-AAF1-9E7E6EBF1DE6}.Release|x64.Build.0 = Release|Any CPU
 		{D42D8E48-A687-445D-AAF1-9E7E6EBF1DE6}.Unstable|x64.ActiveCfg = Debug|Any CPU
 		{D42D8E48-A687-445D-AAF1-9E7E6EBF1DE6}.Unstable|x64.Build.0 = Debug|Any CPU
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}.Debug|x64.Build.0 = Debug|Any CPU
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}.Release|x64.Build.0 = Release|Any CPU
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}.Unstable|x64.ActiveCfg = Debug|Any CPU
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1}.Unstable|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +165,7 @@ Global
 		{C7212AE2-A925-4225-A639-AE0653EF65B0} = {78A9F0AA-5519-407A-9B72-2A09F5DF7068}
 		{C98FE0D0-BC7D-4806-B592-734B53016FD8} = {F35DF9BF-0BED-4FEF-A51C-DD83C531882F}
 		{D42D8E48-A687-445D-AAF1-9E7E6EBF1DE6} = {DE36F45F-F09E-4719-B953-00D148F7722A}
+		{9F8C519E-B126-4FE4-9DC2-BD29AE7DECE1} = {DE36F45F-F09E-4719-B953-00D148F7722A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17032EAB-554B-4B44-A4F6-EFB177ACAB7A}

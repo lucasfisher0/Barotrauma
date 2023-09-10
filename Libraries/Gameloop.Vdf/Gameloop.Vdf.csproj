@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Description>A high-performance framework for the Valve Data Format, also called KeyValues.</Description>
+    <Copyright>Copyright © Shravan Rajinikanth 2016</Copyright>
+    <Company>Gameloop</Company>
+    <Authors>Shravan Rajinikanth</Authors>
+    <Version>0.6.2</Version>
+    <AssemblyVersion>0.6.2.0</AssemblyVersion>
+    <FileVersion>0.6.2.0</FileVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Vdf.NET</Title>
+    <PackageId>Gameloop.Vdf</PackageId>
+    <PackageTags>vdf keyvalues steam</PackageTags>
+    <RepositoryUrl>https://github.com/shravan2x/Gameloop.Vdf</RepositoryUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageProjectUrl>https://github.com/shravan2x/Gameloop.Vdf</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>- Updated MaximumTokenSize to be adjustable in settings.</PackageReleaseNotes>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <DefineConstants>RELEASE</DefineConstants>
+    <NoWarn>1591;1701;1702;1705</NoWarn>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+    <AssemblyTitle>Vdf.NET</AssemblyTitle>
+    <DefineConstants>HAVE_FULL_REFLECTION</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+    <AssemblyTitle>Vdf.NET .NET Standard 1.0</AssemblyTitle>
+    <DefineConstants>NETSTANDARD1_0;PORTABLE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="changes.txt">
+      <Pack>True</Pack>
+      <PackagePath>readme.txt</PackagePath>
+    </Content>
+  </ItemGroup>
+
+</Project>
